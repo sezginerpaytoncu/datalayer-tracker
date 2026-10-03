@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataLayer Test Page</title>
+</head>
+<body>
+    <h1>DataLayer Test Page</h1>
+    <p>This page is used to test the DataLayer Tracker extension.</p>
+    
+    <button onclick="testEvent1()">Test Event 1 (page_view)</button>
+    <button onclick="testEvent2()">Test Event 2 (custom_event)</button>
+    <button onclick="testEvent3()">Test Event 3 (ecommerce)</button>
+    <button onclick="testDataLayerEvent()">Test Extension Function</button>
+    
+    <script>
+        // Initialize dataLayer
+        window.dataLayer = window.dataLayer || [];
+        
+        // Test function 1
+        function testEvent1() {
+            window.dataLayer.push({
+                event: 'page_view',
+                page_title: 'Test Page',
+                page_location: window.location.href,
+                timestamp: new Date().toISOString()
+            });
+        }
+        
+        // Test function 2
+        function testEvent2() {
+            window.dataLayer.push({
+                event: 'custom_event',
+                event_category: 'test',
+                event_action: 'button_click',
+                event_label: 'test_button',
+                value: Math.floor(Math.random() * 100)
+            });
+        }
+        
+        // Test function 3
+        function testEvent3() {
+            window.dataLayer.push({
+                event: 'purchase',
+                ecommerce: {
+                    transaction_id: 'T_' + Date.now(),
+                    value: 99.99,
+                    currency: 'USD',
+                    items: [{
+                        item_id: 'SKU_123',
+                        item_name: 'Test Product',
+                        price: 99.99,
+                        quantity: 1
+                    }]
+                }
+            });
+        }
+        
+        // Simulate Google Analytics
+        function gtag() {
+            window.dataLayer.push(arguments);
+        }
+        
+        // Simulate GTM
+        window.dataLayer.push({
+            'gtm.start': new Date().getTime(),
+            event: 'gtm.js'
+        });
+        
+        // Test function to manually trigger events (for debugging)
+        window.testDataLayerEvent = function() {
+            // // // console.log("DataLayer Tracker: Testing event capture...");
+            if (window.dataLayer && window.dataLayer.push) {
+                const testEvent = {
+                    event: 'test_event',
+                    test: true,
+                    timestamp: new Date().toISOString(),
+                    source: 'manual_test'
+                };
+                // // // console.log("DataLayer Tracker: Pushing test event:", testEvent);
+                // // // console.log("DataLayer Tracker: About to call dataLayer.push...");
+                window.dataLayer.push(testEvent);
+                // // // console.log("DataLayer Tracker: dataLayer.push called");
+            } else {
+                console.error("DataLayer Tracker: dataLayer or push method not available");
+            }
+        };
+        
+        // Simple test function
+        window.simpleTest = function() {
+            // // // console.log("DataLayer Tracker: Simple test - pushing basic event");
+            if (window.dataLayer && window.dataLayer.push) {
+                window.dataLayer.push({
+                    event: 'simple_test',
+                    message: 'Hello from test'
+                });
+            }
+        };
+        
+        // Test background script communication
+        window.testBackground = function() {
+            // // console.log("DataLayer Tracker: Testing background script communication...");
+            try {
+                chrome.runtime.sendMessage({ type: 'test' }, (response) => {
+                    if (chrome.runtime.lastError) {
+                        console.error("DataLayer Tracker: Background test failed:", chrome.runtime.lastError);
+                    } else {
+                        // // console.log("DataLayer Tracker: Background test successful:", response);
+                    }
+                });
+            } catch (error) {
+                console.error("DataLayer Tracker: Background test error:", error);
+            }
+        };
+        
+        // Test function to check current dataLayer state
+        window.checkDataLayer = function() {
+            // // console.log("DataLayer Tracker: Current dataLayer state:");
+            // // console.log("dataLayer exists:", !!window.dataLayer);
+            // // console.log("dataLayer type:", typeof window.dataLayer);
+            // // console.log("dataLayer length:", window.dataLayer ? window.dataLayer.length : 'N/A');
+            // // console.log("dataLayer content:", window.dataLayer);
+            
+            // Check if our hook is active
+            if (window.dataLayer && window.dataLayer.push) {
+                // // console.log("DataLayer Tracker: push method type:", typeof window.dataLayer.push);
+                // // console.log("DataLayer Tracker: push method is our hook:", window.dataLayer.push._isDataLayerTrackerHook);
+                // // console.log("DataLayer Tracker: push method preview:", window.dataLayer.push.toString().substring(0, 200));
+            }
+        };
+        
+        // Direct push test
+        window.directPushTest = function() {
+            // // console.log("DataLayer Tracker: Direct push test...");
+            if (window.dataLayer && window.dataLayer.push) {
+                // // console.log("DataLayer Tracker: About to call push directly...");
+                window.dataLayer.push({
+                    event: 'direct_test',
+                    message: 'Direct push test',
+                    timestamp: new Date().toISOString()
+                });
+                // // console.log("DataLayer Tracker: Direct push completed");
+            }
+        };
+        
+        console.log('Test page loaded. Use the buttons to test dataLayer events.');
+        // // console.log('You can also use:');
+        // // console.log('- window.testDataLayerEvent() to test the extension');
+        // // console.log('- window.checkDataLayer() to check dataLayer state');
+    </script>
+</body>
+</html>

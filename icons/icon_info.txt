@@ -1,0 +1,14 @@
+DataLayer Tracker Extension Icons
+
+Bu klasörde extension için gerekli icon dosyaları bulunmaktadır:
+
+- icon16.svg: 16x16 piksel SVG icon (toolbar için)
+- icon48.svg: 48x48 piksel SVG icon (extensions sayfası için)  
+- icon128.svg: 128x128 piksel SVG icon (Chrome Web Store için)
+
+SVG formatı kullanıldığı için:
+- Vektörel grafik (ölçeklenebilir)
+- Küçük dosya boyutu
+- Modern tarayıcılarda desteklenir
+
+Not: Chrome extension'lar SVG icon'ları destekler, PNG'ye çevirmeye gerek yoktur.
